@@ -1,0 +1,42 @@
+{
+  "name": "@miroculus/anaconda-io-db",
+  "version": "1.0.2",
+  "description": "Handle the data that is saved on the local SQLite on the devices",
+  "main": "index.js",
+  "dependencies": {
+    "sqlite3": "4.0.4"
+  },
+  "devDependencies": {
+    "faker": "4.1.0",
+    "mocha": "5.2.0",
+    "nodemon": "1.18.9",
+    "pre-commit": "1.2.2",
+    "standard": "12.0.1"
+  },
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "nodemon --exec mocha",
+    "standard": "standard \"./**.js\" \"lib/**/**.js\" \"test/**/**.js\"",
+    "standard:fix": "standard --fix \"./**.js\" \"lib/**/**.js\" \"test/**/**.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miroculus/anaconda-io-db.git"
+  },
+  "keywords": [
+    "anaconda",
+    "db",
+    "sqlite",
+    "protocols"
+  ],
+  "precommit.silent": false,
+  "pre-commit": [
+    "standard"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/miroculus/anaconda-io-db/issues"
+  },
+  "homepage": "https://github.com/miroculus/anaconda-io-db#readme"
+}

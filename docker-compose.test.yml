@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  anaconda-io-db:
+    build:
+      args:
+        NODE_ENV: production
+      context: .
+      dockerfile: test.Dockerfile
+    command: npm run test
