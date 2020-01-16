@@ -1,6 +1,6 @@
 # Anaconda IO DB
 
-This module is inteded to handle the data that is saved on the local SQLite
+This module is intended to handle the data that is saved on the local SQLite
 instance inside the devices, using the [sqlite3](https://github.com/mapbox/node-sqlite3)
 library. This is achieved saving the document attributes as a JSON string on the `data` column.
 
