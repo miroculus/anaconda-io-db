@@ -1,4 +1,4 @@
-# Anconda IO DB
+# Anaconda IO DB
 
 This module is inteded to handle the data that is saved on the local SQLite
 instance inside the devices, using the [sqlite3](https://github.com/mapbox/node-sqlite3)
