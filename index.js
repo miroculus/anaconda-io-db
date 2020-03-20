@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const dbUtils = require('./lib/db-utils')
 const createSchema = require('./lib/schema')
@@ -16,7 +17,7 @@ const createSchema = require('./lib/schema')
  * @param {string} location Route to the db file, could be ':memory:', or a path
  * @param {SchemaDefinition[]} schemaDefinitions
  */
-module.exports = (location, schemaDefinitions) => {
+const createDB = (location, schemaDefinitions) => {
   let db = null
 
   // If `location` is relative, take it from the root
@@ -71,3 +72,11 @@ module.exports = (location, schemaDefinitions) => {
 
   return self
 }
+
+createDB.exists = (location) => {
+  if (location === ':memory:') return false
+  const filepath = path.resolve(__dirname, '..', location)
+  return fs.existsSync(filepath)
+}
+
+module.exports = createDB
