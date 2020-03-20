@@ -15,9 +15,10 @@ describe('json db', () => {
         await db2.connect()
 
         const document = mockDocument()
-        await db1.create(document)
 
-        const result = await db2.findOne(document.id)
+        await db1.protocols.create(document)
+
+        const result = await db2.protocols.findOne(document.id)
 
         equal(document, result)
       } finally {
@@ -32,9 +33,9 @@ describe('json db', () => {
   it('create a document', withDb(async (db) => {
     const attrs = mockDocument()
 
-    await db.create(attrs)
+    await db.protocols.create(attrs)
 
-    const [result] = await db.find()
+    const [result] = await db.protocols.find()
 
     equal(attrs, result, 'Created document was not correctly saved')
   }))
@@ -46,11 +47,11 @@ describe('json db', () => {
       mockDocument()
     ]
 
-    await db.create(documents[0])
-    await db.create(documents[1])
-    await db.create(documents[2])
+    await db.protocols.create(documents[0])
+    await db.protocols.create(documents[1])
+    await db.protocols.create(documents[2])
 
-    const results = await db.find()
+    const results = await db.protocols.find()
 
     equal(documents, results, 'Created documents were not correctly saved')
   }))
@@ -58,29 +59,29 @@ describe('json db', () => {
   it('find a document by id', withDb(async (db) => {
     const document = mockDocument()
 
-    await db.create(document)
+    await db.protocols.create(document)
 
     // Fake data
-    await db.create(mockDocument())
-    await db.create(mockDocument())
-    await db.create(mockDocument())
+    await db.protocols.create(mockDocument())
+    await db.protocols.create(mockDocument())
+    await db.protocols.create(mockDocument())
 
-    const result = await db.findOne(document.id)
+    const result = await db.protocols.findOne(document.id)
 
-    equal(document, result, `Invalid response from db.findOne(${document.id})`)
+    equal(document, result, `Invalid response from db.protocols.findOne(${document.id})`)
   }))
 
   it('return empty when no document is found', withDb(async (db) => {
-    const result = await db.findOne(1)
+    const result = await db.protocols.findOne(1)
     equal(null, result, `Document key was not correctly retrieved`)
   }))
 
   it('update a document by id', withDb(async (db) => {
     const document = mockDocument()
-    await db.create(document)
+    await db.protocols.create(document)
 
-    await db.update(document.id, { newValue: 123 })
-    const result = await db.findOne(document.id)
+    await db.protocols.update(document.id, { newValue: 123 })
+    const result = await db.protocols.findOne(document.id)
 
     document.newValue = 123
 
@@ -89,10 +90,10 @@ describe('json db', () => {
 
   it('update a value in a document passing "undefined" to .update', withDb(async (db) => {
     const document = mockDocument()
-    await db.create(document)
+    await db.protocols.create(document)
 
-    await db.update(document.id, { name: undefined })
-    const result = await db.findOne(document.id)
+    await db.protocols.update(document.id, { name: undefined })
+    const result = await db.protocols.findOne(document.id)
 
     delete document.name
 
@@ -105,25 +106,25 @@ describe('json db', () => {
       mockDocument({ active: true })
     ]
 
-    await db.create(documents[0])
-    await db.create(documents[1])
+    await db.protocols.create(documents[0])
+    await db.protocols.create(documents[1])
 
-    await db.update({ active: true }, { active: false })
+    await db.protocols.update({ active: true }, { active: false })
 
     await Promise.all(documents.map(async (doc) => {
       const expected = { ...doc, active: false }
-      const result = await db.findOne(doc.id)
+      const result = await db.protocols.findOne(doc.id)
       equal(expected, result, 'Documents were not correctly updated')
     }))
   }))
 
   it('delete a document by id', withDb(async (db) => {
     const document = mockDocument()
-    await db.create(document)
+    await db.protocols.create(document)
 
-    await db.destroy(document.id)
+    await db.protocols.destroy(document.id)
 
-    const result = await db.findOne(document.id)
+    const result = await db.protocols.findOne(document.id)
     equal(null, result, `Document key was not correctly deleted`)
   }))
 
@@ -133,22 +134,22 @@ describe('json db', () => {
       mockDocument({ active: true })
     ]
 
-    await db.create(documents[0])
-    await db.create(documents[1])
+    await db.protocols.create(documents[0])
+    await db.protocols.create(documents[1])
 
-    await db.destroy({ active: true })
+    await db.protocols.destroy({ active: true })
 
-    const results = await db.find()
+    const results = await db.protocols.find()
 
     equal([], results, 'Documents were not correctly deleted')
   }))
 
   it('empty the database', withDb(async (db) => {
-    await db.create(mockDocument())
+    await db.protocols.create(mockDocument())
 
-    await db.empty()
+    await db.protocols.empty()
 
-    const result = await db.find()
+    const result = await db.protocols.find()
 
     equal(0, result.length, 'The DB shouldn\'t contain documents.')
   }))

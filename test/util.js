@@ -2,11 +2,12 @@ const assert = require('assert')
 const faker = require('faker')
 const createDb = require('..')
 
-exports.createProtocolsDb = (filepath = ':memory:') => createDb({
-  filepath,
-  tableName: 'protocols',
-  indexes: ['active']
-})
+exports.createProtocolsDb = (filepath = ':memory:') => createDb(filepath, [
+  {
+    tableName: 'protocols',
+    indexes: ['active']
+  }
+])
 
 /**
  * Wrap a function to receive
