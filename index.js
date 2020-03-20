@@ -25,6 +25,8 @@ const createDB = (location, schemaDefinitions) => {
     ? ':memory:'
     : path.resolve(__dirname, '..', location)
 
+  const schemas = schemaDefinitions.map(createSchema)
+
   const self = {
     conn: db,
 
@@ -34,21 +36,7 @@ const createDB = (location, schemaDefinitions) => {
       db = await dbUtils.open(filepath)
       self.conn = db
 
-      const schemas = schemaDefinitions.map((schemaDefinition) => {
-        // do not allow JS reserved object words like __proto__ nor current
-        // self used key, this will also check for repeated tableNames
-        if (schemaDefinition.tableName in self) {
-          throw new Error(`The tableName "${schemaDefinition.tableName}" is not a valid name`)
-        }
-
-        const schema = createSchema(db, schemaDefinition)
-
-        self[schemaDefinition.tableName] = schema
-
-        return schema
-      })
-
-      await Promise.all(schemas.map((schema) => schema.init()))
+      await Promise.all(schemas.map((schema) => schema.init(db)))
 
       return self
     },
@@ -69,6 +57,18 @@ const createDB = (location, schemaDefinitions) => {
       }
     })
   }
+
+  schemas.forEach((schema) => {
+    const { schemaDefinition } = schema
+
+    // do not allow JS reserved object words like __proto__ nor current
+    // self used key, this will also check for repeated tableNames
+    if (schemaDefinition.tableName in self) {
+      throw new Error(`The tableName "${schemaDefinition.tableName}" is not a valid name`)
+    }
+
+    self[schemaDefinition.tableName] = schema
+  })
 
   return self
 }
