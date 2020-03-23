@@ -1,5 +1,3 @@
-const fs = require('fs')
-const path = require('path')
 const dbUtils = require('./lib/db-utils')
 const createSchema = require('./lib/schema')
 
@@ -20,11 +18,6 @@ const createSchema = require('./lib/schema')
 const createDB = (location, schemaDefinitions) => {
   let db = null
 
-  // If `location` is relative, take it from the root
-  const filepath = location === ':memory:'
-    ? ':memory:'
-    : path.resolve(__dirname, '..', location)
-
   const schemas = schemaDefinitions.map(createSchema)
 
   const self = {
@@ -33,7 +26,7 @@ const createDB = (location, schemaDefinitions) => {
     connect: async () => {
       if (db) throw new Error('Cannot connect when already connected.')
 
-      db = await dbUtils.open(filepath)
+      db = await dbUtils.open(location)
       self.conn = db
 
       await Promise.all(schemas.map((schema) => schema.init(db)))
@@ -71,12 +64,6 @@ const createDB = (location, schemaDefinitions) => {
   })
 
   return self
-}
-
-createDB.exists = (location) => {
-  if (location === ':memory:') return false
-  const filepath = path.resolve(__dirname, '..', location)
-  return fs.existsSync(filepath)
 }
 
 module.exports = createDB
