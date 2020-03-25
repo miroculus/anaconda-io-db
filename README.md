@@ -113,6 +113,23 @@ the following command:
 await db.protocols.empty()
 ```
 
+### Query filters
+
+The available filters are shown below:
+
+```javascript
+// find by id
+await db.protocols.find(123)
+// same as above:
+await db.protocols.find({ id: 123 })
+// to find all active protocols:
+await db.protocols.find({ active: true }) 
+// to find all not active protocols:
+await db.protocols.find({ active: { $not: true } })
+// same, to find all protocol except id:
+await db.protocols.find({ id: { $not: 123 } })
+```
+
 ### Disconnection
 
 This module exposes the method `db.disconnect()` to close the connection to the

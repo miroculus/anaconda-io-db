@@ -71,6 +71,22 @@ describe('json db', () => {
     equal(document, result, `Invalid response from db.protocols.findOne(${document.id})`)
   }))
 
+  it('find all documents except id', withDb(async (db) => {
+    const document = mockDocument()
+
+    await db.protocols.create(document)
+
+    const docs = [mockDocument(), mockDocument(), mockDocument()]
+
+    for (let doc of docs) {
+      await db.protocols.create(doc)
+    }
+
+    const result = await db.protocols.find({ id: { $not: document.id } })
+
+    equal(docs, result, `Invalid response from db.protocols.find({ id: { $not: ${document.id} } })`)
+  }))
+
   it('return empty when no document is found', withDb(async (db) => {
     const result = await db.protocols.findOne(1)
     equal(null, result, `Document key was not correctly retrieved`)
