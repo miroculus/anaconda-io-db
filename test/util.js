@@ -76,7 +76,7 @@ exports.throws = async (fn, expectedErr) => {
   }
 
   if (throws === false) {
-    const err = new Error(`The function didn't throw the expected error`)
+    const err = new Error('The function didn\'t throw the expected error')
     if (expectedErr) {
       err.actual = []
       err.expected = [expectedErr]

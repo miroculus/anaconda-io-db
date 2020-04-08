@@ -78,7 +78,7 @@ describe('json db', () => {
 
     const docs = [mockDocument(), mockDocument(), mockDocument()]
 
-    for (let doc of docs) {
+    for (const doc of docs) {
       await db.protocols.create(doc)
     }
 
@@ -89,7 +89,7 @@ describe('json db', () => {
 
   it('return empty when no document is found', withDb(async (db) => {
     const result = await db.protocols.findOne(1)
-    equal(null, result, `Document key was not correctly retrieved`)
+    equal(null, result, 'Document key was not correctly retrieved')
   }))
 
   it('update a document by id', withDb(async (db) => {
@@ -101,7 +101,7 @@ describe('json db', () => {
 
     document.newValue = 123
 
-    equal(document, result, `Document was not correctly updated`)
+    equal(document, result, 'Document was not correctly updated')
   }))
 
   it('update a value in a document passing "undefined" to .update', withDb(async (db) => {
@@ -113,7 +113,7 @@ describe('json db', () => {
 
     delete document.name
 
-    equal(document, result, `Document key was not correctly deleted`)
+    equal(document, result, 'Document key was not correctly deleted')
   }))
 
   it('update multiple documents by a prop filter', withDb(async (db) => {
@@ -141,7 +141,7 @@ describe('json db', () => {
     await db.protocols.destroy(document.id)
 
     const result = await db.protocols.findOne(document.id)
-    equal(null, result, `Document key was not correctly deleted`)
+    equal(null, result, 'Document key was not correctly deleted')
   }))
 
   it('delete all documents except id', withDb(async (db) => {
@@ -149,7 +149,7 @@ describe('json db', () => {
 
     await db.protocols.create(document)
 
-    for (let doc of [mockDocument(), mockDocument(), mockDocument()]) {
+    for (const doc of [mockDocument(), mockDocument(), mockDocument()]) {
       await db.protocols.create(doc)
     }
 
