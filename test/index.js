@@ -144,6 +144,22 @@ describe('json db', () => {
     equal(null, result, `Document key was not correctly deleted`)
   }))
 
+  it('delete all documents except id', withDb(async (db) => {
+    const document = mockDocument()
+
+    await db.protocols.create(document)
+
+    for (let doc of [mockDocument(), mockDocument(), mockDocument()]) {
+      await db.protocols.create(doc)
+    }
+
+    await db.protocols.destroy({ id: { $not: document.id } })
+
+    const result = await db.protocols.find()
+
+    equal([document], result, `Invalid response from db.protocols.destroy({ id: { $not: ${document.id} } })`)
+  }))
+
   it('delete multiple documents', withDb(async (db) => {
     const documents = [
       mockDocument({ active: true }),
