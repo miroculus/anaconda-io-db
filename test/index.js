@@ -173,6 +173,28 @@ describe('json db', () => {
     equal([document], result, `Invalid response from db.protocols.destroy({ id: { $not: ${document.id} } })`)
   }))
 
+  it('delete all documents except a value on index', withDb(async (db) => {
+    const document = mockDocument({ active: true })
+
+    await db.protocols.create(document)
+
+    const toDelete = [
+      mockDocument({ active: false }),
+      mockDocument({ active: false }),
+      mockDocument({ active: false })
+    ]
+
+    for (const doc of toDelete) {
+      await db.protocols.create(doc)
+    }
+
+    await db.protocols.destroy({ active: { $not: true } })
+
+    const result = await db.protocols.find()
+
+    equal([document], result, 'Invalid response from db.protocols.destroy({ active: { $not: true } })')
+  }))
+
   it('delete multiple documents', withDb(async (db) => {
     const documents = [
       mockDocument({ active: true }),
