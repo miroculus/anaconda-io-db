@@ -1,4 +1,4 @@
-FROM node:8.11.4
+FROM node:10.19.0
 
 WORKDIR /src
 
@@ -9,5 +9,3 @@ COPY package-lock.json /src/package-lock.json
 RUN npm install
 
 COPY . /src/
-
-CMD ["npm", "start"]
