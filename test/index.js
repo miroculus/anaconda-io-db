@@ -173,7 +173,7 @@ describe('json db', () => {
     equal([document], result, `Invalid response from db.protocols.destroy({ id: { $not: ${document.id} } })`)
   }))
 
-  it('delete all documents except a value on index', withDb(async (db) => {
+  it('delete all documents except a value by index', withDb(async (db) => {
     const document = mockDocument({ active: true })
 
     await db.protocols.create(document)
