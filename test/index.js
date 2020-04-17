@@ -1,3 +1,4 @@
+const assert = require('assert')
 const path = require('path')
 const fs = require('fs')
 const { describe, it } = require('mocha')
@@ -38,6 +39,18 @@ describe('json db', () => {
     const [result] = await db.protocols.find()
 
     equal(attrs, result, 'Created document was not correctly saved')
+  }))
+
+  it('creates a document without id', withDb(async (db) => {
+    const attrs = { name: 'Some Protocol', active: true }
+
+    await db.protocols.create(attrs)
+
+    const [result] = await db.protocols.find()
+
+    assert(result.id, 'Missing id')
+    equal(attrs.name, result.name)
+    equal(attrs.active, result.active)
   }))
 
   it('list created documents', withDb(async (db) => {
