@@ -109,12 +109,13 @@ describe('json db', () => {
     const document = mockDocument()
     await db.protocols.create(document)
 
-    await db.protocols.update(document.id, { newValue: 123 })
+    const [returned] = await db.protocols.update(document.id, { newValue: 123 })
     const result = await db.protocols.findOne(document.id)
 
     document.newValue = 123
 
     equal(document, result, 'Document was not correctly updated')
+    equal(result, returned, 'Update result is not the same as returned from call')
   }))
 
   it('update a value in a document passing "undefined" to .update', withDb(async (db) => {
