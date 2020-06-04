@@ -34,11 +34,12 @@ describe('json db', () => {
   it('create a document', withDb(async (db) => {
     const attrs = mockDocument()
 
-    await db.protocols.create(attrs)
+    const returned = await db.protocols.create(attrs)
 
     const [result] = await db.protocols.find()
 
     equal(attrs, result, 'Created document was not correctly saved')
+    equal(attrs, returned, 'Created document was not correctly returned')
   }))
 
   it('creates a document without id', withDb(async (db) => {
