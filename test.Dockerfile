@@ -1,4 +1,4 @@
-FROM node:10.19.0
+FROM balenalib/raspberrypi3-alpine-node:12.16.3-build
 
 WORKDIR /src
 
@@ -6,6 +6,8 @@ WORKDIR /src
 COPY package.json /src/package.json
 COPY package-lock.json /src/package-lock.json
 
-RUN npm install
+ARG NODE_BINARIES_MIRROR
+
+RUN npm install --node_sqlite3_binary_host_mirror=${NODE_BINARIES_MIRROR}
 
 COPY . /src/

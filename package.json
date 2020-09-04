@@ -1,6 +1,6 @@
 {
   "name": "@miroculus/anaconda-io-db",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Handle the data that is saved on the local SQLite on the devices",
   "main": "index.js",
   "dependencies": {
