@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-alpine-node:12.16.3-run
+FROM balenalib/raspberrypi3-alpine-node:12.16.3-build
 
 WORKDIR /src
 
