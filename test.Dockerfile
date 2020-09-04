@@ -6,6 +6,6 @@ WORKDIR /src
 COPY package.json /src/package.json
 COPY package-lock.json /src/package-lock.json
 
-RUN npm install
+RUN npm install --node_sqlite3_binary_host_mirror=${NODE_BINARIES_MIRROR}
 
 COPY . /src/
